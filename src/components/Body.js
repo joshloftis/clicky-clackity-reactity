@@ -3,13 +3,17 @@ import PropTypes from 'prop-types';
 import Card from './Card';
 import { shuffleArray } from '../helpers';
 
-const Body = function BodyOfApp(props) {
+const Body = (props) => {
   shuffleArray(props.data);
   return (
     <main className="container card-area">
       <div className="row">
         {
-          props.data.map(color => <Card key={color.id} {...color} />)
+          props.data.map(color => (<Card
+            key={color.id}
+            handleClick={props.handleClick}
+            {...color}
+          />))
         }
       </div>
     </main>
@@ -17,7 +21,12 @@ const Body = function BodyOfApp(props) {
 };
 
 Body.propTypes = {
-  data: PropTypes.array.isRequired,
+  data: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+  })).isRequired,
+  handleClick: PropTypes.func.isRequired,
 };
 
 
