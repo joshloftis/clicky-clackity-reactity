@@ -15,13 +15,13 @@ class App extends React.Component {
     };
   }
 
-  handleClick(e) {
-    const block = parseFloat(e.target.getAttribute('data-id'));
+  handleClick(id) {
+    console.log(id);
     const data = [...this.state.data];
-    data[block].clicked = true;
-    this.setState = {
+    data[data.findIndex(arr => arr.id === id)].clicked = true;
+    this.setState({
       data,
-    };
+    });
   }
 
   render() {

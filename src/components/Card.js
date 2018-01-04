@@ -8,8 +8,7 @@ const Card = props => (
       src={props.image}
       alt={props.name}
       data-id={props.id}
-      onClick={props.handleClick}
-      clicked={props.clicked.toString()}
+      onClick={() => props.handleClick(props.id)}
       width="175"
     />
   </div>
@@ -20,7 +19,6 @@ Card.propTypes = {
   name: PropTypes.string.isRequired,
   handleClick: PropTypes.func.isRequired,
   id: PropTypes.number.isRequired,
-  clicked: PropTypes.bool.isRequired,
 };
 
 export default Card;
