@@ -92,3 +92,8 @@ img {
   background: rgba(255,255,255,0.5);
   cursor: grabbing;
 }
+
+.instructions-box {
+  background: #434559;
+  padding: 90px 0 40px;
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from './Header';
+import Instructions from './Instructions';
 import Body from './Body';
 import Footer from './Footer';
 import colors from '../colors.json';
@@ -8,7 +9,9 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
-    this.colors = colors.map(color => (Object.assign({}, color)));
+    this.handleCorrect = this.handleCorrect.bind(this);
+    this.handleIncorrect = this.handleIncorrect.bind(this);
+    this.colors = colors.map(color => (Object.assign({}, color, { clicked: false })));
     this.state = {
       score: 0,
       topscore: 0,
@@ -16,28 +19,34 @@ class App extends React.Component {
     };
   }
 
-  handleClick(id) {
+  handleCorrect(data) {
     let { score, topscore } = this.state;
+    score = this.state.score + 1;
+    (score <= topscore) ? topscore : topscore = this.state.topscore + 1;
+    this.setState({
+      score,
+      topscore,
+      data,
+    });
+  }
+
+  handleIncorrect() {
+    this.colors = colors.map(color => (Object.assign({}, color, { clicked: false })));
+    let { score, topscore, data } = this.state;
+    this.setState({
+      score: 0,
+      topscore,
+      data: this.colors,
+    });
+  }
+
+  handleClick(id) {
     const data = [...this.state.data];
     if (!data[data.findIndex(arr => arr.id === id)].clicked) {
       data[data.findIndex(arr => arr.id === id)].clicked = true;
-      score = this.state.score + 1;
-      if (score <= topscore) {
-        topscore = topscore;
-      } else {
-        topscore = this.state.topscore + 1;
-      }
-      this.setState({
-        score,
-        topscore,
-        data,
-      });
-    } else if (data[data.findIndex(arr => arr.id === id)].clicked) {
-      this.setState({
-        score: 0,
-        topscore,
-        data: this.colors,
-      });
+      this.handleCorrect(data);
+    } else {
+      this.handleIncorrect();
     }
   }
 
@@ -48,6 +57,7 @@ class App extends React.Component {
           score={this.state.score}
           topScore={this.state.topscore}
         />
+        <Instructions />
         <Body
           data={this.state.data}
           handleClick={this.handleClick}
