@@ -8,6 +8,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
+    this.colors = colors.map(color => (Object.assign({}, color)));
     this.state = {
       score: 0,
       topscore: 0,
@@ -16,12 +17,28 @@ class App extends React.Component {
   }
 
   handleClick(id) {
-    console.log(id);
+    let { score, topscore } = this.state;
     const data = [...this.state.data];
-    data[data.findIndex(arr => arr.id === id)].clicked = true;
-    this.setState({
-      data,
-    });
+    if (!data[data.findIndex(arr => arr.id === id)].clicked) {
+      data[data.findIndex(arr => arr.id === id)].clicked = true;
+      score = this.state.score + 1;
+      if (score <= topscore) {
+        topscore = topscore;
+      } else {
+        topscore = this.state.topscore + 1;
+      }
+      this.setState({
+        score,
+        topscore,
+        data,
+      });
+    } else if (data[data.findIndex(arr => arr.id === id)].clicked) {
+      this.setState({
+        score: 0,
+        topscore,
+        data: this.colors,
+      });
+    }
   }
 
   render() {
