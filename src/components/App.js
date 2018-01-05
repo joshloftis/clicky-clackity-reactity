@@ -22,7 +22,7 @@ class App extends React.Component {
   handleCorrect(data) {
     let { score, topscore } = this.state;
     score = this.state.score + 1;
-    (score <= topscore) ? topscore : topscore = this.state.topscore + 1;
+    (score <= topscore) ? { topscore } = this.state : topscore = this.state.topscore + 1;
     this.setState({
       score,
       topscore,
@@ -32,7 +32,7 @@ class App extends React.Component {
 
   handleIncorrect() {
     this.colors = colors.map(color => (Object.assign({}, color, { clicked: false })));
-    let { score, topscore, data } = this.state;
+    const { topscore } = this.state;
     this.setState({
       score: 0,
       topscore,
